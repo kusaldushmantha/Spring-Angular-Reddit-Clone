@@ -2,6 +2,7 @@ package com.example.reddit.clone.service;
 
 import com.example.reddit.clone.dto.AuthenticationResponse;
 import com.example.reddit.clone.dto.LoginRequest;
+import com.example.reddit.clone.dto.RefreshTokenRequest;
 import com.example.reddit.clone.dto.RegisterRequest;
 import com.example.reddit.clone.exception.SpringRedditCloneException;
 import com.example.reddit.clone.model.NotificationMail;
@@ -37,6 +38,7 @@ public class AuthService
     private final MailService mailService;
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public void signUp( RegisterRequest registerRequest )
@@ -112,7 +114,12 @@ public class AuthService
         SecurityContextHolder.getContext().setAuthentication( authenticate );
         String jwtToken = jwtProvider.generateToken( authenticate );
 
-        return new AuthenticationResponse( jwtToken, loginRequest.getUsername() );
+        return AuthenticationResponse.builder()
+                                     .authenticationToken( jwtToken )
+                                     .refreshToken( refreshTokenService.generateRefreshToken().getToken() )
+                                     .expiresAt( Instant.now().plusMillis( jwtProvider.getJwtExpirationInMillis() ) )
+                                     .username( loginRequest.getUsername() )
+                                     .build();
     }
 
     @Transactional( readOnly = true )
@@ -121,5 +128,17 @@ public class AuthService
         org.springframework.security.core.userdetails.User principal = ( org.springframework.security.core.userdetails.User ) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByUsername( principal.getUsername() )
                              .orElseThrow( () -> new UsernameNotFoundException( "User name not found - " + principal.getUsername() ) );
+    }
+
+    public AuthenticationResponse refreshToken( RefreshTokenRequest refreshTokenRequest )
+    {
+        refreshTokenService.validateRefreshToken( refreshTokenRequest.getRefreshToken() );
+        String token = jwtProvider.generateTokenWithUsername( refreshTokenRequest.getUsername() );
+        return AuthenticationResponse.builder()
+                                     .authenticationToken( token )
+                                     .refreshToken( refreshTokenRequest.getRefreshToken() )
+                                     .expiresAt( Instant.now().plusMillis( jwtProvider.getJwtExpirationInMillis() ) )
+                                     .username( refreshTokenRequest.getUsername() )
+                                     .build();
     }
 }
