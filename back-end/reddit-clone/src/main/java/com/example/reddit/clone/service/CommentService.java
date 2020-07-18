@@ -13,6 +13,7 @@ import com.example.reddit.clone.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class CommentService
     private final UserRepository userRepository;
     private final MailService mailService;
 
+    @Transactional
     public void save( CommentDto commentDto )
     {
         Post post = postRepository.findById( commentDto.getPostId() )
@@ -46,6 +48,7 @@ public class CommentService
         mailService.sendMail( new NotificationMail( user.getUsername() + " Commented on your post", user.getEmail(), message ) );
     }
 
+    @Transactional( readOnly = true )
     public List<CommentDto> getAllCommentsForPost( Long postId )
     {
         Post post = postRepository.findById( postId ).orElseThrow( () -> new PostNotFoundException( postId.toString() ) );
@@ -54,6 +57,7 @@ public class CommentService
                                 .map( commentMapper::mapToDto ).collect( toList() );
     }
 
+    @Transactional( readOnly = true )
     public List<CommentDto> getAllCommentsForUser( String userName )
     {
         User user = userRepository.findByUsername( userName )
