@@ -32,7 +32,7 @@ public class CommentService
 
     public void save( CommentDto commentDto )
     {
-        Post post = postRepository.findById( commentDto.getId() )
+        Post post = postRepository.findById( commentDto.getPostId() )
                                   .orElseThrow( () -> new PostNotFoundException( "Post not found for ID : " + commentDto.getId() ) );
 
         Comment comment = commentMapper.map( commentDto, post, authService.getCurrentUser() );
