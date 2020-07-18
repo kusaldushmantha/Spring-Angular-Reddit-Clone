@@ -26,7 +26,6 @@ public class CommentService
     private final AuthService authService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-    private final MailContentBuilder mailContentBuilder;
     private final UserRepository userRepository;
     private final MailService mailService;
 
