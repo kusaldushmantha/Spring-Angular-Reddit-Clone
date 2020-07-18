@@ -1,8 +1,10 @@
 package com.example.reddit.clone.service;
 
-import com.example.reddit.clone.dto.SubRedditDto;
+import com.example.reddit.clone.dto.SubredditDto;
+import com.example.reddit.clone.exception.SpringRedditCloneException;
+import com.example.reddit.clone.mapper.SubRedditMapper;
 import com.example.reddit.clone.model.Subreddit;
-import com.example.reddit.clone.repository.SubredditRepository;
+import com.example.reddit.clone.repository.SubRedditRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,38 +16,32 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SubRedditService
 {
-    private final SubredditRepository subredditRepository;
+    private final SubRedditRepository subRedditRepository;
+    private final SubRedditMapper subRedditMapper;
 
     @Transactional
-    public SubRedditDto save( SubRedditDto subRedditDto )
+    public SubredditDto save( SubredditDto subRedditDto )
     {
-        Subreddit dto = mapSubRedditToDto( subRedditDto );
-        Subreddit save = subredditRepository.save( dto );
+        Subreddit dto = subRedditMapper.mapDtoToSubreddit( subRedditDto );
+        Subreddit save = subRedditRepository.save( dto );
         subRedditDto.setId( save.getId() );
         return subRedditDto;
     }
 
-    private Subreddit mapSubRedditToDto( SubRedditDto subRedditDto )
+
+    @Transactional( readOnly = true )
+    public List<SubredditDto> getAll()
     {
-        return Subreddit.builder()
-                        .name( subRedditDto.getName() )
-                        .description( subRedditDto.getDescription() )
-                        .build();
+        return subRedditRepository.findAll()
+                                  .stream().map( subRedditMapper::mapSubredditToDto )
+                                  .collect( Collectors.toList() );
     }
 
     @Transactional( readOnly = true )
-    public List<SubRedditDto> getAll()
+    public SubredditDto getSubReddit( Long id )
     {
-        return subredditRepository.findAll().stream().map( this::mapToDto ).collect( Collectors.toList() );
-    }
-
-    private SubRedditDto mapToDto( Subreddit subreddit )
-    {
-        return SubRedditDto.builder()
-                           .name( subreddit.getName() )
-                           .id( subreddit.getId() )
-                           .description( subreddit.getDescription() )
-                           .numberOfPosts( subreddit.getPosts().size() )
-                           .build();
+        Subreddit subReddit = subRedditRepository.findById( id )
+                                                 .orElseThrow( () -> new SpringRedditCloneException( "No subreddit found for id : " + id ) );
+        return subRedditMapper.mapSubredditToDto( subReddit );
     }
 }

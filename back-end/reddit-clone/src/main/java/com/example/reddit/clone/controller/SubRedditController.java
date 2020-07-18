@@ -1,6 +1,6 @@
 package com.example.reddit.clone.controller;
 
-import com.example.reddit.clone.dto.SubRedditDto;
+import com.example.reddit.clone.dto.SubredditDto;
 import com.example.reddit.clone.service.SubRedditService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,16 +17,23 @@ public class SubRedditController
     private final SubRedditService subRedditService;
 
     @PostMapping()
-    public ResponseEntity<SubRedditDto> createSubreddit( @RequestBody SubRedditDto subRedditDto )
+    public ResponseEntity<SubredditDto> createSubreddit( @RequestBody SubredditDto subRedditDto )
     {
-        SubRedditDto save = subRedditService.save( subRedditDto );
+        SubredditDto save = subRedditService.save( subRedditDto );
         return ResponseEntity.status( HttpStatus.CREATED ).body( save );
     }
 
     @GetMapping()
-    public ResponseEntity<List<SubRedditDto>> getAllSubReddits()
+    public ResponseEntity<List<SubredditDto>> getAllSubReddits()
     {
-        List<SubRedditDto> all = subRedditService.getAll();
+        List<SubredditDto> all = subRedditService.getAll();
         return ResponseEntity.status( HttpStatus.OK ).body( all );
+    }
+
+    @GetMapping( "/{id}" )
+    public ResponseEntity<SubredditDto> getSubReddit( @PathVariable Long id )
+    {
+        SubredditDto subReddit = subRedditService.getSubReddit( id );
+        return ResponseEntity.status( HttpStatus.OK ).body( subReddit );
     }
 }
