@@ -50,21 +50,14 @@ public class AuthController
     }
 
     @PostMapping( "/login" )
-    public ResponseEntity login( @RequestBody LoginRequest loginRequest )
+    public ResponseEntity<AuthenticationResponse> login( @RequestBody LoginRequest loginRequest )
     {
-        try
-        {
-            AuthenticationResponse authenticationResponse = authService.login( loginRequest );
-            return new ResponseEntity<>( authenticationResponse, HttpStatus.OK );
-        }
-        catch( Exception e )
-        {
-            return new ResponseEntity<>( "User authentication failed : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR );
-        }
+        AuthenticationResponse authenticationResponse = authService.login( loginRequest );
+        return new ResponseEntity<>( authenticationResponse, HttpStatus.OK );
     }
 
     @PostMapping( "/refresh/token" )
-    public ResponseEntity refreshTokens( @Valid @RequestBody RefreshTokenRequest refreshTokenRequest )
+    public ResponseEntity<AuthenticationResponse> refreshTokens( @Valid @RequestBody RefreshTokenRequest refreshTokenRequest )
     {
         AuthenticationResponse authenticationResponse = authService.refreshToken( refreshTokenRequest );
         return new ResponseEntity<>( authenticationResponse, HttpStatus.OK );
