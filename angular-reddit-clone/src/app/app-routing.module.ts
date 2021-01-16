@@ -11,19 +11,19 @@ import { UserProfileComponent } from './auth/user-profile/user-profile.component
 
 
 const routes: Routes = [
-  { path: 'sign-up', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
-  { path: '', component: HomeComponent },
-  { path: 'create-post', component: CreatePostComponent },
-  { path: 'create-subreddit', component: CreateSubredditComponent },
-  { path: 'list-subreddits', component: ListSubredditsComponent },
-  { path: 'view-post/:id', component: ViewPostComponent },
-  { path: 'user-profile/:name', component: UserProfileComponent },
+    { path: 'sign-up', component: SignupComponent },
+    { path: 'login', component: LoginComponent },
+    { path: '', component: HomeComponent },
+    { path: 'create-post', component: CreatePostComponent },
+    { path: 'create-subreddit', component: CreateSubredditComponent },
+    { path: 'list-subreddits', component: ListSubredditsComponent },
+    { path: 'view-post/:id', component: ViewPostComponent },
+    { path: 'user-profile/:name', component: UserProfileComponent },
 ];
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
+@NgModule( {
+    imports: [ RouterModule.forRoot( routes ) ],
+    exports: [ RouterModule ]
+} )
 export class AppRoutingModule {
 }

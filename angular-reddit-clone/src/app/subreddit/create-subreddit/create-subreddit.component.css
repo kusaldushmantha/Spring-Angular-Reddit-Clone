@@ -10,18 +10,18 @@
     position: relative;
     border-radius: 4px;
     padding: 5px;
-  }
-  
-  .create-subreddit-heading {
+}
+
+.create-subreddit-heading {
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
     color: #1c1c1c;
     -ms-flex: 1;
     flex: 1;
-  }
-  
-  .btnCreateSubreddit {
+}
+
+.btnCreateSubreddit {
     background-color: #0079D3;
     border-color: #0079D3;
     color: aliceblue;
@@ -40,9 +40,9 @@
     opacity: 1;
     width: 288px;
     height: 34px;
-  }
-  
-  .btnDiscard {
+}
+
+.btnDiscard {
     fill: #0079D3;
     border: 1px solid;
     border-radius: 4px;
@@ -61,17 +61,17 @@
     margin-top: 5px;
     color: #0079D3;
     background-color: transparent;
-  }
-  
-  .guidelines {
+}
+
+.guidelines {
     text-align: center;
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
     color: #1c1c1c;
-  }
-  
-  .sidebar {
+}
+
+.sidebar {
     width: 312px;
     height: 242px;
     --post-line-color: #ccc;
@@ -85,4 +85,4 @@
     padding: 5px;
     margin-top: 10px;
     margin-bottom: 10px;
-  }
+}

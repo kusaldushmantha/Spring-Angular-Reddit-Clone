@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <hr />
+        <hr/>
         <div class="col-md-9">
             <div class="row post">
                 <div class="col-md-1">
@@ -15,21 +15,21 @@
                             <a class="username" href="">{{post.userName}}</a>
                         </span>
                     </span>
-                    <hr />
-                    <a routerLink="post.url" class="post-title">{{post.postName}}</a>
+                    <hr/>
+                    <a class="post-title" routerLink="post.url">{{post.postName}}</a>
                     <div>
-                        <p class="post-text" [innerHtml]="post.description"></p>
+                        <p [innerHtml]="post.description" class="post-text"></p>
                     </div>
                     <div class="post-comment">
-                        <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+                        <form (ngSubmit)="postComment()" [formGroup]="commentForm">
                             <div class="form-group">
-                                <textarea class="form-control" [formControlName]="'text'"
-                                    placeholder="Your Thoughts?"></textarea>
+                                <textarea [formControlName]="'text'" class="form-control"
+                                          placeholder="Your Thoughts?"></textarea>
                             </div>
-                            <button type="submit" class="login float-right">Comment</button>
+                            <button class="login float-right" type="submit">Comment</button>
                         </form>
                     </div>
-                    <div style="margin-top: 60px;" *ngFor="let comment of comments">
+                    <div *ngFor="let comment of comments" style="margin-top: 60px;">
                         <div class="comment">
                             <div class="username">
                                 <a routerLink="/user/comment.username">{{comment.userName}}</a>
@@ -39,7 +39,7 @@
                             </div>
                             <b>{{comment.text}}</b>
                         </div>
-                        <hr />
+                        <hr/>
                     </div>
                 </div>
             </div>

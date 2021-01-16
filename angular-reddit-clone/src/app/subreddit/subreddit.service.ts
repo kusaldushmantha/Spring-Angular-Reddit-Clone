@@ -3,20 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SubredditModel } from './subreddit-model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable( {
+    providedIn: 'root'
+} )
 export class SubredditService {
 
-  constructor(private http: HttpClient) { }
+    constructor( private http: HttpClient ) {
+    }
 
-  getAllSubreddits(): Observable<Array<SubredditModel>> {
-    return this.http.get<Array<SubredditModel>>('http://localhost:8080/api/subreddit/');
-  }
+    getAllSubreddits(): Observable<Array<SubredditModel>> {
+        return this.http.get<Array<SubredditModel>>( 'http://localhost:8080/api/subreddit/' );
+    }
 
-  createSubreddit(subredditModel: SubredditModel): Observable<SubredditModel> {
-    return this.http.post<SubredditModel>('http://localhost:8080/api/subreddit',
-      subredditModel);
-  }
+    createSubreddit( subredditModel: SubredditModel ): Observable<SubredditModel> {
+        return this.http.post<SubredditModel>( 'http://localhost:8080/api/subreddit',
+            subredditModel );
+    }
 
 }
